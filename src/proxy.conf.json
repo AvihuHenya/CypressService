@@ -1,0 +1,10 @@
+{
+    "/metadata/*": {
+        "target": "http://localhost:8085/metadata",
+        "secure": false,
+        "logLevel": "debug",
+        "headers": {
+            "Connection": "keep-alive"
+        }
+    }
+}
