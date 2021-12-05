@@ -6,12 +6,13 @@ import { Observable, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class MetadataService {
-  //backendUrl :string;
+
+  readonly metadata_url = 'http://localhost:8085';
 
   constructor(private http: HttpClient) {
-   }
+  }
 
-   getMetadata(url: string) {
-     return this.http.get<Object>(url)
-   }
+  getMetadata() {
+    return this.http.get(`${this.metadata_url}/metadata/`);
+  }
 }

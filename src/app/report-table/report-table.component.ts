@@ -1,11 +1,11 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReportComponent } from '../report/report.component';
 import rep from "../../assets/reports.json"
 // import { MatPaginator } from '@angular/material/paginator';
 //import { HttpClient } from '@angular/common/http';
-import { MetadataService } from '../metadata.service';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
+import { MetadataService } from '../services/metadata.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-report-table',
@@ -14,29 +14,28 @@ import {MatTableDataSource} from '@angular/material/table';
 })
 export class ReportTableComponent implements OnInit {
 
-  reports:ReportComponent[] = [];
+  reports: ReportComponent[] = [];
   displayedColumns: string[] = ['name', 'date', 'url'];
   minRows: number = 11;
-  title:string[] = ["title"];
+  title: string[] = ["title"];
   @ViewChild(MatPaginator, { static: true })
   paginator: MatPaginator;
   dataSource: MatTableDataSource<ReportComponent>;
 
-  constructor(private metadataService:MetadataService) { }
+  constructor(private metadataService: MetadataService) { }
 
   ngOnInit(): void {
     this.generateReports();
     this.genReports();
-    console.log(this.reports)
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
-  generateReports(): void{
+  generateReports(): void {
     let reparr = rep.reports;
-    for (let idx in rep.reports){
+    for (let idx in rep.reports) {
       let r = new ReportComponent
       r.setDate(reparr[idx].date)
       r.setName(reparr[idx].name)
@@ -51,12 +50,13 @@ export class ReportTableComponent implements OnInit {
     this.dataSource = new MatTableDataSource<ReportComponent>(this.reports);
   }
 
-  genReports(): void{
-    this.metadataService.getMetadata("/metadata")
-    .subscribe((data: any) => console.log(data));
+  genReports(): void {
+    this.metadataService.getMetadata().subscribe((data: any) => {
+      console.log(data)
+    });
   }
 
-  redirect(url:string):void{
+  redirect(url: string): void {
     window.location.href = url
   }
 
