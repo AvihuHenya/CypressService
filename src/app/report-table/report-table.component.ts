@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ReportComponent } from '../report/report.component';
-import rep from "../../assets/reports.json"
-// import { MatPaginator } from '@angular/material/paginator';
-//import { HttpClient } from '@angular/common/http';
 import { MetadataService } from '../services/metadata.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Report } from '../models/report.model';
+import { first, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-report-table',
@@ -14,50 +13,52 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class ReportTableComponent implements OnInit {
 
-  reports: ReportComponent[] = [];
-  displayedColumns: string[] = ['name', 'date', 'url'];
-  minRows: number = 11;
-  title: string[] = ["title"];
   @ViewChild(MatPaginator, { static: true })
+  
+  reports: any;
+  title: string[] = ["title"];
+  displayedColumns: string[] = ['name', 'date', 'url'];
+  
+  reportsComponent: ReportComponent[] = [];
+  minRows: number = 11;
   paginator: MatPaginator;
   dataSource: MatTableDataSource<ReportComponent>;
+
+  subscriber: Subscription;
 
   constructor(private metadataService: MetadataService) { }
 
   ngOnInit(): void {
-    this.generateReports();
     this.genReports();
   }
-
-  ngAfterViewInit() {
+  
+  generateReports(): void {
+    const reports: Report[] = this.reports.reports;
+    let r = new ReportComponent;
+    for (const report of reports) {
+      r.setDate(report.date)
+      r.setName(report.name)
+      r.setReportLink(report.reportUrl)
+      this.reportsComponent.push(r)
+    }
+    
+    this.dataSource = new MatTableDataSource<ReportComponent>(this.reportsComponent);
     this.dataSource.paginator = this.paginator;
   }
 
-  generateReports(): void {
-    let reparr = rep.reports;
-    for (let idx in rep.reports) {
-      let r = new ReportComponent
-      r.setDate(reparr[idx].date)
-      r.setName(reparr[idx].name)
-      r.setReportLink(reparr[idx].reportLink)
-      this.reports.push(r)
-    }
-
-    /*for (let i=rep.reports.length;i < this.minRows;i++){
-      this.reports.push(new ReportComponent)
-    }*/
-
-    this.dataSource = new MatTableDataSource<ReportComponent>(this.reports);
-  }
-
   genReports(): void {
-    this.metadataService.getMetadata().subscribe((data: any) => {
-      console.log(data)
+    this.subscriber = this.metadataService.getMetadata().subscribe((data: any) => {
+      this.reports = data;
+      
+      this.generateReports();
     });
   }
 
   redirect(url: string): void {
-    window.location.href = url
+    window.open(url, '_blank')?.focus();
   }
 
+  ngOnDestroy() {
+    this.subscriber.unsubscribe();
+  }
 }

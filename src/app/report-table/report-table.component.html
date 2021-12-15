@@ -1,6 +1,6 @@
 <p>
   <mat-toolbar color="primary">
-    <span>My App</span>
+    <span>Cypress Reports Dashbord</span>
     <span class="spacer"></span>
     <img src="assets/cypress.png" height="50" width="200"/>
   </mat-toolbar>
@@ -29,7 +29,7 @@
     <ng-container matColumnDef="url">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let r">
-        <button mat-raised-button color="primary" (click)="redirect(r.reportLink)" *ngIf="r.name != ''">Go to report</button>
+        <button mat-raised-button color="primary" (click)="redirect(r.reportUrl)" *ngIf="r.name != ''">Go to report</button>
       </td>
     </ng-container>
 

@@ -1,0 +1,25 @@
+{
+    "name": "cypress-reports",
+    "version": "1.0.0",
+    "scripts": {
+      "ng": "ng",
+      "start": "ng serve",
+      "build": "ng build --prod",
+      "test": "ng test --watch false",
+      "lint": "ng lint",
+      "e2e": "cypress run",
+      "cy:run:record": "cypress run --record",
+      "cy:open": "cypress open",
+      "cleanup": "rm -fr mochawesome-report",
+      "merge_reports": "mochawesome-merge --reportDir mochawesome-report > mochawesome-report/output.json",
+      "generate_mochawesome_report": "marge mochawesome-report/output.json",
+      "e2e_mochawesome": "npm run cleanup && cypress run  && npm run merge_reports && npm run generate_mochawesome_report"
+    },
+    "dependencies": {
+        "cypress-multi-reporters": "^1.4.0",
+        "mocha": "5.2.0",
+        "mochawesome": "^3.1.1",
+        "mochawesome-merge": "^1.0.7",
+        "mochawesome-report-generator": "^3.1.5"
+    }
+  }

@@ -1,0 +1,10 @@
+{
+    "integrationFolder": "/usr/src/cypress",
+    "reporter": "mochawesome",
+    "reporterOptions": {
+        "reportDir": "/usr/share/nginx/html",
+        "overwrite": false,
+        "html": true,
+        "json": false
+    }
+}
