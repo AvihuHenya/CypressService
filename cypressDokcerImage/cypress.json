@@ -1,5 +1,5 @@
 {
-    "integrationFolder": "/usr/src/cypress",
+    "integrationFolder": "/usr/src/cypress/integration",
     "reporter": "mochawesome",
     "reporterOptions": {
         "reportDir": "/usr/share/nginx/html",

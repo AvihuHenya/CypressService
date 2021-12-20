@@ -12,7 +12,10 @@ export class MetadataService {
   constructor(private http: HttpClient) {
   }
 
-  getMetadata() {
-    return this.http.get(`${this.metadata_url}/metadata/`);
+//  getMetadata() {
+//      return this.http.get(`${this.metadata_url}/metadata/`);
+//  }
+  getMetadata(){
+    return this.http.get(`/metadata/`);
   }
 }
